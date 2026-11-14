@@ -2,13 +2,39 @@ import Foundation
 
 @MainActor
 struct MainFeedViewStateBuilder {
-    func makeState(from page: PhotoPage) -> MainFeedViewState {
-        let items = page.photos.map(makeItem)
-        return items.isEmpty ? .empty : .content(items)
+    func makeState(from serviceState: EditorialFeedServiceState) -> MainFeedViewState {
+        switch serviceState {
+        case .idle:
+            return .idle
+
+        case .loading:
+            return .loading
+
+        case let .content(content):
+            guard !content.photos.isEmpty else { return .empty }
+            return .content(
+                MainFeedContentState(
+                    items: content.photos.map(makeItem),
+                    pagination: makePaginationState(from: content.pagination)
+                )
+            )
+
+        case let .error(error):
+            return .error(makeErrorState(from: error))
+        }
     }
 
-    func makeState(from error: Error) -> MainFeedViewState {
-        .error(makeErrorState(from: error))
+    private func makePaginationState(
+        from serviceState: EditorialFeedServicePaginationState
+    ) -> MainFeedPaginationState {
+        switch serviceState {
+        case .idle:
+            .idle
+        case .loading:
+            .loading
+        case let .error(error):
+            .error(makeErrorState(from: error))
+        }
     }
 
     private func makeItem(from photo: Photo) -> MainFeedItem {
@@ -37,51 +63,44 @@ struct MainFeedViewStateBuilder {
         return components.url ?? url
     }
 
-    private func makeErrorState(from error: Error) -> MainFeedErrorState {
-        guard let networkError = error as? NetworkError else {
-            return genericErrorState()
-        }
-
-        switch networkError {
-        case let .transport(code)
-            where code == .notConnectedToInternet || code == .networkConnectionLost:
-            return MainFeedErrorState(
+    private func makeErrorState(
+        from error: EditorialFeedServiceError
+    ) -> MainFeedErrorState {
+        switch error {
+        case .offline:
+            MainFeedErrorState(
                 title: String(localized: "No Internet Connection"),
                 message: String(localized: "Check your connection and try again."),
                 canRetry: true
             )
 
-        case .transport(.timedOut):
-            return MainFeedErrorState(
+        case .timedOut:
+            MainFeedErrorState(
                 title: String(localized: "The Request Timed Out"),
                 message: String(localized: "Please try loading the feed again."),
                 canRetry: true
             )
 
-        case let .http(statusCode, _) where statusCode == 401 || statusCode == 403:
-            return MainFeedErrorState(
+        case .authentication:
+            MainFeedErrorState(
                 title: String(localized: "Access Key Error"),
                 message: String(localized: "Check the Unsplash Access Key configuration."),
                 canRetry: false
             )
 
-        case let .http(statusCode, _) where statusCode == 429:
-            return MainFeedErrorState(
+        case .rateLimit:
+            MainFeedErrorState(
                 title: String(localized: "Request Limit Reached"),
                 message: String(localized: "Please try again later."),
                 canRetry: true
             )
 
-        default:
-            return genericErrorState()
+        case .generic:
+            MainFeedErrorState(
+                title: String(localized: "Couldn’t Load Photos"),
+                message: String(localized: "Something went wrong. Please try again."),
+                canRetry: true
+            )
         }
-    }
-
-    private func genericErrorState() -> MainFeedErrorState {
-        MainFeedErrorState(
-            title: String(localized: "Couldn’t Load Photos"),
-            message: String(localized: "Something went wrong. Please try again."),
-            canRetry: true
-        )
     }
 }

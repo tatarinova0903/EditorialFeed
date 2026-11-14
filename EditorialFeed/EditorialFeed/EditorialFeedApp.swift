@@ -9,8 +9,9 @@ struct EditorialFeedApp: App {
             let configuration = try AppConfiguration.load()
             let client = UnsplashClient(accessKey: configuration.unsplashAccessKey)
             let repository = UnsplashPhotoRepository(client: client)
+            let service = EditorialFeedServiceImpl(repository: repository)
             let model = MainFeedViewModelImpl(
-                repository: repository,
+                service: service,
                 viewStateBuilder: MainFeedViewStateBuilder(),
                 externalURLOpener: SystemExternalURLOpener()
             )

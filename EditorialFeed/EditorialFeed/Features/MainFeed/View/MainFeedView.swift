@@ -33,8 +33,12 @@ private struct MainFeedContentView: View {
         case .idle, .loading:
             MainFeedLoadingView()
 
-        case let .content(items):
-            MainFeedGridView(items: items, onEvent: onEvent)
+        case let .content(contentState):
+            MainFeedGridView(
+                items: contentState.items,
+                paginationState: contentState.pagination,
+                onEvent: onEvent
+            )
 
         case .empty:
             MainFeedEmptyView()

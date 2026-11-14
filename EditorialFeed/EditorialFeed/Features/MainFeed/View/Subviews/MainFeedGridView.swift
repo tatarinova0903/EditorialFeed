@@ -4,6 +4,7 @@ struct MainFeedGridView: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
     let items: [MainFeedItem]
+    let paginationState: MainFeedPaginationState
     let onEvent: (MainFeedViewEvent) -> Void
 
     var body: some View {
@@ -29,9 +30,19 @@ struct MainFeedGridView: View {
                             )
                         }
                     )
+                    .onAppear {
+                        onEvent(.itemAppeared(photoID: item.id))
+                    }
                 }
             }
-            .padding(16)
+            .padding(.horizontal, 16)
+            .padding(.top, 16)
+            .padding(.bottom, paginationState == .idle ? 16 : 0)
+
+            MainFeedPaginationFooter(
+                state: paginationState,
+                retry: { onEvent(.paginationRetryTapped) }
+            )
         }
     }
 

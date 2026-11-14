@@ -11,6 +11,8 @@ enum MainFeedViewEvent: Equatable {
     case appeared
     case retryTapped
     case disappeared
+    case itemAppeared(photoID: String)
+    case paginationRetryTapped
     case attributionTapped(photoID: String, destination: MainFeedAttributionDestination)
 }
 
