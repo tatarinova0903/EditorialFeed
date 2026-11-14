@@ -2,6 +2,3 @@
 // the project can still build before credentials are configured.
 UNSPLASH_ACCESS_KEY =
 #include? "Secrets.xcconfig"
-
-// Expose the value through the generated Info.plist.
-INFOPLIST_KEY_UNSPLASH_ACCESS_KEY = $(UNSPLASH_ACCESS_KEY)
