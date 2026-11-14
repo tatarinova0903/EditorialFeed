@@ -30,36 +30,18 @@ private struct MainFeedImageView: View {
         Color.clear
             .aspectRatio(4.0 / 5.0, contentMode: .fit)
             .overlay {
-                AsyncImage(url: url) { phase in
-                    switch phase {
-                    case let .success(image):
+                CachedAsyncImage(
+                    url: url,
+                    content: { image in
                         image
                             .resizable()
                             .scaledToFit()
-
-                    case .failure:
-                        ZStack {
-                            Rectangle()
-                                .fill(.quaternary)
-
-                            Image(systemName: "photo.badge.exclamationmark")
-                                .font(.title2)
-                                .foregroundStyle(.secondary)
-                        }
-
-                    case .empty:
-                        ZStack {
-                            Rectangle()
-                                .fill(.quaternary)
-
-                            ProgressView()
-                        }
-
-                    @unknown default:
+                    },
+                    placeholder: {
                         Rectangle()
                             .fill(.quaternary)
                     }
-                }
+                )
             }
             .clipShape(RoundedRectangle(cornerRadius: 12))
     }
