@@ -11,9 +11,7 @@ struct MainFeedView<Model: MainFeedViewModel>: View {
         NavigationStack {
             MainFeedContentView(
                 state: model.state,
-                retry: {
-                    model.send(.retryTapped)
-                }
+                onEvent: model.send
             )
             .navigationTitle("Editorial Feed")
         }
@@ -28,7 +26,7 @@ struct MainFeedView<Model: MainFeedViewModel>: View {
 
 private struct MainFeedContentView: View {
     let state: MainFeedViewState
-    let retry: () -> Void
+    let onEvent: (MainFeedViewEvent) -> Void
 
     var body: some View {
         switch state {
@@ -36,7 +34,7 @@ private struct MainFeedContentView: View {
             MainFeedLoadingView()
 
         case let .content(items):
-            MainFeedGridView(items: items)
+            MainFeedGridView(items: items, onEvent: onEvent)
 
         case .empty:
             MainFeedEmptyView()
@@ -46,7 +44,7 @@ private struct MainFeedContentView: View {
                 title: errorState.title,
                 message: errorState.message,
                 canRetry: errorState.canRetry,
-                retry: retry
+                retry: { onEvent(.retryTapped) }
             )
         }
     }
