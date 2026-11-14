@@ -7,7 +7,7 @@ struct MainFeedCell: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            MainFeedImagePlaceholder()
+            MainFeedImageView(url: item.imageURL)
 
             Text(item.description)
                 .font(.subheadline)
@@ -23,18 +23,45 @@ struct MainFeedCell: View {
     }
 }
 
-private struct MainFeedImagePlaceholder: View {
-    var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(.quaternary)
+private struct MainFeedImageView: View {
+    let url: URL
 
-            Image(systemName: "photo")
-                .font(.title2)
-                .foregroundStyle(.secondary)
-        }
-        .aspectRatio(4.0 / 5.0, contentMode: .fit)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+    var body: some View {
+        Color.clear
+            .aspectRatio(4.0 / 5.0, contentMode: .fit)
+            .overlay {
+                AsyncImage(url: url) { phase in
+                    switch phase {
+                    case let .success(image):
+                        image
+                            .resizable()
+                            .scaledToFit()
+
+                    case .failure:
+                        ZStack {
+                            Rectangle()
+                                .fill(.quaternary)
+
+                            Image(systemName: "photo.badge.exclamationmark")
+                                .font(.title2)
+                                .foregroundStyle(.secondary)
+                        }
+
+                    case .empty:
+                        ZStack {
+                            Rectangle()
+                                .fill(.quaternary)
+
+                            ProgressView()
+                        }
+
+                    @unknown default:
+                        Rectangle()
+                            .fill(.quaternary)
+                    }
+                }
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
