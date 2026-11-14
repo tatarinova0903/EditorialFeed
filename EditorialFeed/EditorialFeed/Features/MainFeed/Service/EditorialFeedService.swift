@@ -8,7 +8,8 @@ protocol EditorialFeedService: AnyObject, Observable {
     func loadInitialIfNeeded()
     func loadNextPageIfNeeded()
     func retry()
-    func cancelActiveRequest()
+    func cancelSearchRequest()
+    func setSearchQuery(_ query: String?)
 }
 
 nonisolated enum EditorialFeedServiceState: Equatable, Sendable {
@@ -19,8 +20,14 @@ nonisolated enum EditorialFeedServiceState: Equatable, Sendable {
 }
 
 nonisolated struct EditorialFeedServiceContent: Equatable, Sendable {
+    let source: EditorialFeedServiceSource
     let photos: [Photo]
     let pagination: EditorialFeedServicePaginationState
+}
+
+nonisolated enum EditorialFeedServiceSource: Equatable, Sendable {
+    case editorial
+    case search(query: String)
 }
 
 nonisolated enum EditorialFeedServicePaginationState: Equatable, Sendable {

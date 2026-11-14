@@ -4,8 +4,14 @@ enum MainFeedViewState: Equatable {
     case idle
     case loading
     case content(MainFeedContentState)
-    case empty
+    case empty(MainFeedEmptyState)
     case error(MainFeedErrorState)
+}
+
+struct MainFeedEmptyState: Equatable {
+    let title: String
+    let systemImage: String
+    let message: String
 }
 
 struct MainFeedContentState: Equatable {

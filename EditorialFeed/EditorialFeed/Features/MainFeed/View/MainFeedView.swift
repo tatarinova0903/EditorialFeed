@@ -14,13 +14,21 @@ struct MainFeedView<Model: MainFeedViewModel>: View {
                 onEvent: model.send
             )
             .navigationTitle("Editorial Feed")
+            .searchable(
+                text: searchQueryBinding,
+                prompt: "Search photos"
+            )
         }
         .onAppear {
             model.send(.appeared)
         }
-        .onDisappear {
-            model.send(.disappeared)
-        }
+    }
+
+    private var searchQueryBinding: Binding<String> {
+        Binding(
+            get: { model.searchQuery },
+            set: { model.send(.searchQueryChanged($0)) }
+        )
     }
 }
 
@@ -40,8 +48,8 @@ private struct MainFeedContentView: View {
                 onEvent: onEvent
             )
 
-        case .empty:
-            MainFeedEmptyView()
+        case let .empty(emptyState):
+            MainFeedEmptyView(state: emptyState)
 
         case let .error(errorState):
             MainFeedErrorView(
@@ -61,11 +69,13 @@ private struct MainFeedLoadingView: View {
 }
 
 private struct MainFeedEmptyView: View {
+    let state: MainFeedEmptyState
+
     var body: some View {
         ContentUnavailableView(
-            "No Photos",
-            systemImage: "photo.on.rectangle.angled",
-            description: Text("The editorial feed is empty right now.")
+            state.title,
+            systemImage: state.systemImage,
+            description: Text(state.message)
         )
     }
 }

@@ -3,6 +3,7 @@ import Observation
 @MainActor
 protocol MainFeedViewModel: AnyObject, Observable {
     var state: MainFeedViewState { get }
+    var searchQuery: String { get }
 
     func send(_ event: MainFeedViewEvent)
 }
@@ -10,7 +11,7 @@ protocol MainFeedViewModel: AnyObject, Observable {
 enum MainFeedViewEvent: Equatable {
     case appeared
     case retryTapped
-    case disappeared
+    case searchQueryChanged(String)
     case itemAppeared(photoID: String)
     case paginationRetryTapped
     case attributionTapped(photoID: String, destination: MainFeedAttributionDestination)

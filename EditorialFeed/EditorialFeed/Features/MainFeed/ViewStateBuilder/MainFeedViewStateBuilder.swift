@@ -11,7 +11,9 @@ struct MainFeedViewStateBuilder {
             return .loading
 
         case let .content(content):
-            guard !content.photos.isEmpty else { return .empty }
+            guard !content.photos.isEmpty else {
+                return .empty(makeEmptyState(for: content.source))
+            }
             return .content(
                 MainFeedContentState(
                     items: content.photos.map(makeItem),
@@ -21,6 +23,25 @@ struct MainFeedViewStateBuilder {
 
         case let .error(error):
             return .error(makeErrorState(from: error))
+        }
+    }
+
+    private func makeEmptyState(
+        for source: EditorialFeedServiceSource
+    ) -> MainFeedEmptyState {
+        switch source {
+        case .editorial:
+            MainFeedEmptyState(
+                title: String(localized: "No Photos"),
+                systemImage: "photo.on.rectangle.angled",
+                message: String(localized: "The editorial feed is empty right now.")
+            )
+        case .search:
+            MainFeedEmptyState(
+                title: String(localized: "No Results"),
+                systemImage: "magnifyingglass",
+                message: String(localized: "Try a different search term.")
+            )
         }
     }
 
