@@ -11,7 +11,6 @@ struct PhotoDetailsMetadataView: View {
             VStack(alignment: .leading, spacing: 12) {
                 Text(description)
                     .font(.body)
-                    .foregroundStyle(.white)
                     .frame(maxWidth: .infinity, alignment: .leading)
 
                 PhotoDetailsAttributionView(
@@ -47,8 +46,6 @@ private struct PhotoDetailsAttributionView: View {
             }
         }
         .font(.subheadline)
-        .foregroundStyle(.white.opacity(0.7))
         .buttonStyle(.plain)
-        .tint(.white)
     }
 }

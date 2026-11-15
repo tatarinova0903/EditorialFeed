@@ -8,16 +8,14 @@ struct PhotoDetailsView<Model: PhotoDetailsViewModel>: View {
     }
 
     var body: some View {
-        ZStack(alignment: .bottom) {
-            Color.black
-                .ignoresSafeArea()
-
+        VStack {
             PhotoDetailsImageView(
                 previewURL: model.state.previewImageURL,
                 fullImageURL: model.state.fullImageURL
             )
             .padding(.horizontal, 16)
-            .padding(.vertical, 64)
+
+            Spacer()
 
             PhotoDetailsMetadataView(
                 description: model.state.description,
@@ -30,9 +28,5 @@ struct PhotoDetailsView<Model: PhotoDetailsViewModel>: View {
                 }
             )
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .tint(.white)
-        .toolbarColorScheme(.dark, for: .navigationBar)
-        .toolbarBackground(.hidden, for: .navigationBar)
     }
 }
