@@ -57,18 +57,10 @@ public struct CachedAsyncImage<Content>: View where Content: View {
         let configuration = URLSessionConfiguration.default
         configuration.urlCache = urlCache
         self.urlRequest = urlRequest
-        self.urlSession =  URLSession(configuration: configuration)
+        self.urlSession = URLSession(configuration: configuration)
         self.scale = scale
         self.content = content
-
         self._phase = State(wrappedValue: .empty)
-        do {
-            if let urlRequest = urlRequest, let image = try cachedImage(from: urlRequest, cache: urlCache) {
-                self._phase = State(wrappedValue: .success(image))
-            }
-        } catch {
-            self._phase = State(wrappedValue: .failure(error))
-        }
     }
 
     @Sendable
@@ -92,11 +84,6 @@ private extension CachedAsyncImage {
     private func remoteImage(from request: URLRequest, session: URLSession) async throws -> Image {
         let (data, _) = try await session.data(for: request)
         return try image(from: data)
-    }
-
-    private func cachedImage(from request: URLRequest, cache: URLCache) throws -> Image? {
-        guard let cachedResponse = cache.cachedResponse(for: request) else { return nil }
-        return try image(from: cachedResponse.data)
     }
 
     private func image(from data: Data) throws -> Image {
