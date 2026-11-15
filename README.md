@@ -214,7 +214,7 @@ AI was used as a pair-programming tool throughout development:
 - to decompose the requirements and prepare an implementation plan;
 - to discuss UI-module boundaries and component responsibilities;
 - to prepare and refactor individual sections of code;
-- to update unit tests;
+- to write unit tests;
 - to prepare documentation.
 
 Architectural decisions were made iteratively: AI suggestions were evaluated against the assignment requirements, Unsplash API behavior, and manual application checks. Application testing and Instruments profiling were performed manually without AI.
