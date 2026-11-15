@@ -1,7 +1,6 @@
 import Foundation
 import Observation
 
-@MainActor
 protocol EditorialFeedService: AnyObject, Observable {
     var state: EditorialFeedServiceState { get }
 

@@ -1,6 +1,5 @@
 import Observation
 
-@MainActor
 @Observable
 final class PhotoDetailsViewModelImpl: PhotoDetailsViewModel {
     let state: PhotoDetailsViewState

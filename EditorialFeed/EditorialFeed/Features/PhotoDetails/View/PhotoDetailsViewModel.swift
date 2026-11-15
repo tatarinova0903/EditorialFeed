@@ -1,6 +1,5 @@
 import Observation
 
-@MainActor
 protocol PhotoDetailsViewModel: AnyObject, Observable {
     var state: PhotoDetailsViewState { get }
 

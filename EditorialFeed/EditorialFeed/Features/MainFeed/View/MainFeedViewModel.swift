@@ -1,6 +1,5 @@
 import Observation
 
-@MainActor
 protocol MainFeedViewModel: AnyObject, Observable {
     var state: MainFeedViewState { get }
     var searchQuery: String { get }

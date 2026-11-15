@@ -1,6 +1,5 @@
 import Foundation
 
-@MainActor
 struct PhotoDescriptionFormatter {
     func format(_ photo: Photo) -> String {
         [photo.altDescription, photo.description]

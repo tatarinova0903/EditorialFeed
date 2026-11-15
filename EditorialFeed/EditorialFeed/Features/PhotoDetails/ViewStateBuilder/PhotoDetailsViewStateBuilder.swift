@@ -1,6 +1,5 @@
 import Foundation
 
-@MainActor
 struct PhotoDetailsViewStateBuilder {
     private let descriptionFormatter: PhotoDescriptionFormatter
 

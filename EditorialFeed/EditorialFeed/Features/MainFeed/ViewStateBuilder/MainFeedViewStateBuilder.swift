@@ -1,6 +1,5 @@
 import Foundation
 
-@MainActor
 struct MainFeedViewStateBuilder {
     private let descriptionFormatter: PhotoDescriptionFormatter
 

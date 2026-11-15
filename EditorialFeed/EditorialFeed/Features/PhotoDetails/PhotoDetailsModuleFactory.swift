@@ -1,6 +1,5 @@
 import Foundation
 
-@MainActor
 struct PhotoDetailsModuleFactory {
     private let externalURLOpener: ExternalURLOpening
     private let viewStateBuilder: PhotoDetailsViewStateBuilder
