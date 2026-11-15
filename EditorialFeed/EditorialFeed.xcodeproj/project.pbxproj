@@ -29,7 +29,6 @@
 		EE3BF82030A855D200B56EA7 /* EditorialFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EditorialFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE3BF82D30A855D300B56EA7 /* EditorialFeedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EditorialFeedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE3BF83730A855D300B56EA7 /* EditorialFeedUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EditorialFeedUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EE3BF86830A85CDE00B56EA7 /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -93,7 +92,6 @@
 			children = (
 				A10000000000000000000001 /* Configuration.xcconfig */,
 				A10000000000000000000002 /* Secrets.xcconfig.example */,
-				EE3BF86830A85CDE00B56EA7 /* Secrets.xcconfig */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
