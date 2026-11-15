@@ -57,8 +57,6 @@ final class MainFeedViewModelImpl: MainFeedViewModel {
             }
             service.retry()
 
-        case let .attributionTapped(photoID, destination):
-            openAttribution(photoID: photoID, destination: destination)
         }
     }
 
@@ -116,24 +114,6 @@ final class MainFeedViewModelImpl: MainFeedViewModel {
         }
 
         service.loadNextPageIfNeeded()
-    }
-
-    private func openAttribution(
-        photoID: String,
-        destination: MainFeedAttributionDestination
-    ) {
-        guard case let .content(contentState) = state,
-              let item = contentState.items.first(where: { $0.id == photoID })
-        else {
-            return
-        }
-
-        switch destination {
-        case .photographer:
-            externalURLOpener.open(item.photographerURL)
-        case .photo:
-            externalURLOpener.open(item.photoURL)
-        }
     }
 }
 

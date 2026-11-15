@@ -62,26 +62,8 @@ struct MainFeedViewStateBuilder {
         MainFeedItem(
             id: photo.id,
             imageURL: photo.imageURLs.small,
-            description: photo.displayDescription,
-            photographerName: photo.photographer.name,
-            photographerURL: attributionURL(from: photo.photographer.profileURL),
-            photoURL: attributionURL(from: photo.webURL)
+            description: photo.displayDescription
         )
-    }
-
-    private func attributionURL(from url: URL) -> URL {
-        guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-            return url
-        }
-
-        var queryItems = components.queryItems ?? []
-        queryItems.removeAll { item in
-            item.name == "utm_source" || item.name == "utm_medium"
-        }
-        queryItems.append(URLQueryItem(name: "utm_source", value: "editorial_feed"))
-        queryItems.append(URLQueryItem(name: "utm_medium", value: "referral"))
-        components.queryItems = queryItems
-        return components.url ?? url
     }
 
     private func makeErrorState(

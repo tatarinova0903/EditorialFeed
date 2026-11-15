@@ -11,25 +11,7 @@ struct MainFeedGridView: View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 16) {
                 ForEach(items) { item in
-                    MainFeedCell(
-                        item: item,
-                        openPhotographer: {
-                            onEvent(
-                                .attributionTapped(
-                                    photoID: item.id,
-                                    destination: .photographer
-                                )
-                            )
-                        },
-                        openPhoto: {
-                            onEvent(
-                                .attributionTapped(
-                                    photoID: item.id,
-                                    destination: .photo
-                                )
-                            )
-                        }
-                    )
+                    MainFeedCell(item: item)
                     .onAppear {
                         onEvent(.itemAppeared(photoID: item.id))
                     }

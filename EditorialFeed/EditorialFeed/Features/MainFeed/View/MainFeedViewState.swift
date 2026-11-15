@@ -29,9 +29,6 @@ struct MainFeedItem: Identifiable, Equatable {
     let id: String
     let imageURL: URL
     let description: String
-    let photographerName: String
-    let photographerURL: URL
-    let photoURL: URL
 }
 
 struct MainFeedErrorState: Equatable {

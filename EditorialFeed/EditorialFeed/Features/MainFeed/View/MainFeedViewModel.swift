@@ -14,10 +14,4 @@ enum MainFeedViewEvent: Equatable {
     case searchQueryChanged(String)
     case itemAppeared(photoID: String)
     case paginationRetryTapped
-    case attributionTapped(photoID: String, destination: MainFeedAttributionDestination)
-}
-
-enum MainFeedAttributionDestination: Equatable {
-    case photographer
-    case photo
 }
