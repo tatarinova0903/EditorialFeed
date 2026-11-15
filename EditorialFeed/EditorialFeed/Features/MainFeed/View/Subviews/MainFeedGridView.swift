@@ -17,13 +17,11 @@ struct MainFeedGridView: View {
                         dismissSearch()
                         onEvent(.photoTapped(photoID: item.id))
                     } label: {
-                        MainFeedTransitionSource(
-                            id: item.id,
-                            namespace: transitionNamespace
-                        ) {
-                            MainFeedCell(item: item)
-                                .contentShape(Rectangle())
-                        }
+                        MainFeedCell(
+                            item: item,
+                            transitionNamespace: transitionNamespace
+                        )
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
                     .onAppear {
@@ -48,31 +46,5 @@ struct MainFeedGridView: View {
             repeating: GridItem(.flexible(), spacing: 12, alignment: .top),
             count: count
         )
-    }
-}
-
-private struct MainFeedTransitionSource<Content: View>: View {
-    let id: String
-    let namespace: Namespace.ID
-    let content: Content
-
-    init(
-        id: String,
-        namespace: Namespace.ID,
-        @ViewBuilder content: () -> Content
-    ) {
-        self.id = id
-        self.namespace = namespace
-        self.content = content()
-    }
-
-    @ViewBuilder
-    var body: some View {
-        if #available(iOS 18.0, *) {
-            content
-                .matchedTransitionSource(id: id, in: namespace)
-        } else {
-            content
-        }
     }
 }
