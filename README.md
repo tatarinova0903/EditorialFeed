@@ -204,6 +204,7 @@ The tests cover:
 - prefetch nearby images;
 - repeat Instruments profiling after these optimizations;
 - add pull-to-refresh;
+- move search to a dedicated screen while reusing the existing grid and pagination components;
 - expand the handling and presentation of server and decoding errors;
 - add snapshot and UI smoke tests;
 - consider an offline metadata cache.
