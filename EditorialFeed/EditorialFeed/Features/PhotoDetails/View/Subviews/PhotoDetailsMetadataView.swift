@@ -25,13 +25,6 @@ struct PhotoDetailsMetadataView: View {
         }
         .scrollIndicators(.hidden)
         .frame(maxHeight: 220)
-        .background {
-            LinearGradient(
-                colors: [.clear, .black.opacity(0.88)],
-                startPoint: .top,
-                endPoint: .bottom
-            )
-        }
     }
 }
 

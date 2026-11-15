@@ -8,11 +8,6 @@ protocol PhotoDetailsViewModel: AnyObject, Observable {
 }
 
 enum PhotoDetailsViewEvent: Equatable {
-    case closeTapped
     case photographerAttributionTapped
     case photoAttributionTapped
-}
-
-enum PhotoDetailsOutput: Equatable {
-    case close
 }

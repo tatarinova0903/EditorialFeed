@@ -3,22 +3,27 @@ import SwiftUI
 struct MainFeedView<Model: MainFeedViewModel>: View {
     @State private var model: Model
 
-    init(model: Model) {
+    private let transitionNamespace: Namespace.ID
+
+    init(
+        model: Model,
+        transitionNamespace: Namespace.ID
+    ) {
         _model = State(initialValue: model)
+        self.transitionNamespace = transitionNamespace
     }
 
     var body: some View {
-        NavigationStack {
-            MainFeedContentView(
-                state: model.state,
-                onEvent: model.send
-            )
-            .navigationTitle("Editorial Feed")
-            .searchable(
-                text: searchQueryBinding,
-                prompt: "Search photos"
-            )
-        }
+        MainFeedContentView(
+            state: model.state,
+            transitionNamespace: transitionNamespace,
+            onEvent: model.send
+        )
+        .navigationTitle("Editorial Feed")
+        .searchable(
+            text: searchQueryBinding,
+            prompt: "Search photos"
+        )
         .onAppear {
             model.send(.appeared)
         }
@@ -34,6 +39,7 @@ struct MainFeedView<Model: MainFeedViewModel>: View {
 
 private struct MainFeedContentView: View {
     let state: MainFeedViewState
+    let transitionNamespace: Namespace.ID
     let onEvent: (MainFeedViewEvent) -> Void
 
     var body: some View {
@@ -45,6 +51,7 @@ private struct MainFeedContentView: View {
             MainFeedGridView(
                 items: contentState.items,
                 paginationState: contentState.pagination,
+                transitionNamespace: transitionNamespace,
                 onEvent: onEvent
             )
 

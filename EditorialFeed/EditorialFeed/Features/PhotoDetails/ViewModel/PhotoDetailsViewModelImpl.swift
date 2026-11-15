@@ -8,24 +8,16 @@ final class PhotoDetailsViewModelImpl: PhotoDetailsViewModel {
     @ObservationIgnored
     private let externalURLOpener: ExternalURLOpening
 
-    @ObservationIgnored
-    private let onOutput: (PhotoDetailsOutput) -> Void
-
     init(
         state: PhotoDetailsViewState,
-        externalURLOpener: ExternalURLOpening,
-        onOutput: @escaping (PhotoDetailsOutput) -> Void
+        externalURLOpener: ExternalURLOpening
     ) {
         self.state = state
         self.externalURLOpener = externalURLOpener
-        self.onOutput = onOutput
     }
 
     func send(_ event: PhotoDetailsViewEvent) {
         switch event {
-        case .closeTapped:
-            onOutput(.close)
-
         case .photographerAttributionTapped:
             externalURLOpener.open(state.photographerURL)
 

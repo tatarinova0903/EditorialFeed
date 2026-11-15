@@ -13,14 +13,10 @@ struct PhotoDetailsModuleFactory {
         self.viewStateBuilder = viewStateBuilder
     }
 
-    func makeViewModel(
-        photo: Photo,
-        onOutput: @escaping (PhotoDetailsOutput) -> Void
-    ) -> PhotoDetailsViewModelImpl {
+    func makeViewModel(photo: Photo) -> PhotoDetailsViewModelImpl {
         PhotoDetailsViewModelImpl(
             state: viewStateBuilder.makeState(from: photo),
-            externalURLOpener: externalURLOpener,
-            onOutput: onOutput
+            externalURLOpener: externalURLOpener
         )
     }
 }

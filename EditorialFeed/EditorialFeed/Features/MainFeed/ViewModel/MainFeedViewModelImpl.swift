@@ -12,7 +12,7 @@ final class MainFeedViewModelImpl: MainFeedViewModel {
 
     private let service: EditorialFeedService
     private let viewStateBuilder: MainFeedViewStateBuilder
-    private let externalURLOpener: ExternalURLOpening
+    private let router: MainFeedRouting
 
     @ObservationIgnored
     private var debounceTask: Task<Void, Never>?
@@ -20,11 +20,11 @@ final class MainFeedViewModelImpl: MainFeedViewModel {
     init(
         service: EditorialFeedService,
         viewStateBuilder: MainFeedViewStateBuilder,
-        externalURLOpener: ExternalURLOpening
+        router: MainFeedRouting
     ) {
         self.service = service
         self.viewStateBuilder = viewStateBuilder
-        self.externalURLOpener = externalURLOpener
+        self.router = router
     }
 
     isolated deinit {
@@ -57,6 +57,8 @@ final class MainFeedViewModelImpl: MainFeedViewModel {
             }
             service.retry()
 
+        case let .photoTapped(photoID):
+            showPhotoDetails(photoID: photoID)
         }
     }
 
@@ -114,6 +116,16 @@ final class MainFeedViewModelImpl: MainFeedViewModel {
         }
 
         service.loadNextPageIfNeeded()
+    }
+
+    private func showPhotoDetails(photoID: String) {
+        guard case let .content(content) = service.state,
+              let photo = content.photos.first(where: { $0.id == photoID })
+        else {
+            return
+        }
+
+        router.showPhotoDetails(photo)
     }
 }
 

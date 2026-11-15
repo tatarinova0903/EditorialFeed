@@ -10,12 +10,20 @@ struct EditorialFeedApp: App {
             let client = UnsplashClient(accessKey: configuration.unsplashAccessKey)
             let repository = UnsplashPhotoRepository(client: client)
             let service = EditorialFeedServiceImpl(repository: repository)
+            let externalURLOpener = SystemExternalURLOpener()
+            let photoDetailsFactory = PhotoDetailsModuleFactory(
+                externalURLOpener: externalURLOpener,
+                viewStateBuilder: PhotoDetailsViewStateBuilder()
+            )
+            let coordinator = MainFeedFlowCoordinator(
+                photoDetailsFactory: photoDetailsFactory
+            )
             let model = MainFeedViewModelImpl(
                 service: service,
                 viewStateBuilder: MainFeedViewStateBuilder(),
-                externalURLOpener: SystemExternalURLOpener()
+                router: coordinator
             )
-            root = .mainFeed(model)
+            root = .mainFeed(model, coordinator)
         } catch {
             root = .configurationError(error.localizedDescription)
         }
@@ -24,8 +32,11 @@ struct EditorialFeedApp: App {
     var body: some Scene {
         WindowGroup {
             switch root {
-            case let .mainFeed(model):
-                MainFeedView(model: model)
+            case let .mainFeed(model, coordinator):
+                MainFeedFlowView(
+                    model: model,
+                    coordinator: coordinator
+                )
 
             case let .configurationError(message):
                 ConfigurationErrorView(message: message)
@@ -35,6 +46,6 @@ struct EditorialFeedApp: App {
 }
 
 private enum AppRoot {
-    case mainFeed(MainFeedViewModelImpl)
+    case mainFeed(MainFeedViewModelImpl, MainFeedFlowCoordinator)
     case configurationError(String)
 }
