@@ -7,23 +7,20 @@ struct PhotoDetailsMetadataView: View {
     let openPhoto: () -> Void
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 12) {
-                Text(description)
-                    .font(.body)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+        VStack(alignment: .leading, spacing: 12) {
+            Text(description)
+                .lineLimit(3)
+                .font(.body)
+                .frame(maxWidth: .infinity, alignment: .leading)
 
-                PhotoDetailsAttributionView(
-                    photographerName: photographerName,
-                    openPhotographer: openPhotographer,
-                    openPhoto: openPhoto
-                )
-            }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 16)
+            PhotoDetailsAttributionView(
+                photographerName: photographerName,
+                openPhotographer: openPhotographer,
+                openPhoto: openPhoto
+            )
         }
-        .scrollIndicators(.hidden)
-        .frame(maxHeight: 220)
+        .padding(.horizontal, 20)
+        .padding(.vertical, 16)
     }
 }
 
