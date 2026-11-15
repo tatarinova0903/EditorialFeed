@@ -22,7 +22,8 @@ struct UnsplashPhotoRepositoryTests {
         #expect(page.hasNextPage)
         #expect(page.photos.count == 1)
         #expect(page.photos[0].id == "photo-id")
-        #expect(page.photos[0].displayDescription == "Alt description")
+        #expect(page.photos[0].altDescription == "Alt description")
+        #expect(page.photos[0].description == "Description")
         #expect(page.photos[0].imageURLs.small.absoluteString.contains("ixid=test"))
 
         let request = try #require(URLProtocolStub.recordedRequest())

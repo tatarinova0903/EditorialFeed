@@ -2,12 +2,18 @@ import Foundation
 
 @MainActor
 struct PhotoDetailsViewStateBuilder {
+    private let descriptionFormatter: PhotoDescriptionFormatter
+
+    init(descriptionFormatter: PhotoDescriptionFormatter) {
+        self.descriptionFormatter = descriptionFormatter
+    }
+
     func makeState(from photo: Photo) -> PhotoDetailsViewState {
         PhotoDetailsViewState(
             id: photo.id,
             previewImageURL: photo.imageURLs.small,
             fullImageURL: photo.imageURLs.regular,
-            description: photo.displayDescription,
+            description: descriptionFormatter.format(photo),
             photographerName: photo.photographer.name,
             photographerURL: attributionURL(from: photo.photographer.profileURL),
             photoURL: attributionURL(from: photo.webURL)

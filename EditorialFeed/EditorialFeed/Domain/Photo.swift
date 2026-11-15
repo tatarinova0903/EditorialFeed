@@ -10,18 +10,6 @@ nonisolated struct Photo: Identifiable, Equatable, Sendable {
     let photographer: Photographer
     let webURL: URL
 
-    var displayDescription: String {
-        [altDescription, description]
-            .compactMap { value in
-                value?.trimmingCharacters(in: .whitespacesAndNewlines)
-            }
-            .first(where: { !$0.isEmpty })
-            ?? String(
-                localized: "Untitled photo",
-                comment: "Fallback description for a photo without API descriptions"
-            )
-    }
-
     var aspectRatio: Double {
         guard width > 0, height > 0 else { return 1 }
         return Double(width) / Double(height)

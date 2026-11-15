@@ -11,16 +11,21 @@ struct EditorialFeedApp: App {
             let repository = UnsplashPhotoRepository(client: client)
             let service = EditorialFeedServiceImpl(repository: repository)
             let externalURLOpener = SystemExternalURLOpener()
+            let photoDescriptionFormatter = PhotoDescriptionFormatter()
             let photoDetailsFactory = PhotoDetailsModuleFactory(
                 externalURLOpener: externalURLOpener,
-                viewStateBuilder: PhotoDetailsViewStateBuilder()
+                viewStateBuilder: PhotoDetailsViewStateBuilder(
+                    descriptionFormatter: photoDescriptionFormatter
+                )
             )
             let coordinator = MainFeedFlowCoordinator(
                 photoDetailsFactory: photoDetailsFactory
             )
             let model = MainFeedViewModelImpl(
                 service: service,
-                viewStateBuilder: MainFeedViewStateBuilder(),
+                viewStateBuilder: MainFeedViewStateBuilder(
+                    descriptionFormatter: photoDescriptionFormatter
+                ),
                 router: coordinator
             )
             root = .mainFeed(model, coordinator)

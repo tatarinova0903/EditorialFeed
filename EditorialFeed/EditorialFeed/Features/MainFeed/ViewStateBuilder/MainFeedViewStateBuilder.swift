@@ -2,6 +2,12 @@ import Foundation
 
 @MainActor
 struct MainFeedViewStateBuilder {
+    private let descriptionFormatter: PhotoDescriptionFormatter
+
+    init(descriptionFormatter: PhotoDescriptionFormatter) {
+        self.descriptionFormatter = descriptionFormatter
+    }
+
     func makeState(from serviceState: EditorialFeedServiceState) -> MainFeedViewState {
         switch serviceState {
         case .idle:
@@ -62,7 +68,7 @@ struct MainFeedViewStateBuilder {
         MainFeedItem(
             id: photo.id,
             imageURL: photo.imageURLs.small,
-            description: photo.displayDescription
+            description: descriptionFormatter.format(photo)
         )
     }
 
