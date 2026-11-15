@@ -2,8 +2,10 @@
 
 EditorialFeed is an iOS application for browsing Unsplash photos and searching for images. The main screen presents an endless gallery, and a selected photo can be opened on a dedicated screen.
 
-![[ipad.png|293]]     ![[iphone.png|180]]
-
+<p align="center">
+  <img src="img/ipad.png" alt="EditorialFeed on iPad" width="293">
+  <img src="img/iphone.png" alt="EditorialFeed on iPhone" width="180">
+</p>
 
 ## Technologies
 
@@ -31,7 +33,8 @@ The application requires an Unsplash Access Key.
    ```
 
 6. Run the `EditorialFeed` target.
-![[access_key.png]]
+
+![Access Key configuration in Xcode](img/access_key.png)
 
 `Secrets.xcconfig` is listed in `.gitignore` and must not be committed to the repository. If the key is missing, the application displays a dedicated configuration error screen.
 
