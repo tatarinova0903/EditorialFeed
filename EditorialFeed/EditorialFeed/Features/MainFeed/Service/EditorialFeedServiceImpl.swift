@@ -357,6 +357,6 @@ final class EditorialFeedServiceImpl: EditorialFeedService {
 
 private extension EditorialFeedServiceImpl {
     enum Constants {
-        static let pageSize = 30
+        static let pageSize = 20
     }
 }

@@ -7,7 +7,7 @@ struct UnsplashPhotoRepositoryTests {
     @Test
     func loadsEditorialPhotosAndReadsNextPageLink() async throws {
         URLProtocolStub.setStub(
-            .init(
+            URLProtocolStub.Stub(
                 headers: [
                     "Link": "<https://api.unsplash.com/photos?page=2>; rel=\"next\", <https://api.unsplash.com/photos?page=10>; rel=\"last\""
                 ],
@@ -16,7 +16,7 @@ struct UnsplashPhotoRepositoryTests {
         )
         let repository = makeRepository()
 
-        let page = try await repository.photos(page: 1, perPage: 30)
+        let page = try await repository.photos(page: 1, perPage: 20)
 
         #expect(page.page == 1)
         #expect(page.hasNextPage)
@@ -29,7 +29,7 @@ struct UnsplashPhotoRepositoryTests {
         let request = try #require(URLProtocolStub.recordedRequest())
         #expect(request.url?.path == "/photos")
         #expect(request.url?.query?.contains("page=1") == true)
-        #expect(request.url?.query?.contains("per_page=30") == true)
+        #expect(request.url?.query?.contains("per_page=20") == true)
         #expect(request.value(forHTTPHeaderField: "Authorization") == "Client-ID test-key")
         #expect(request.value(forHTTPHeaderField: "Accept-Version") == "v1")
     }
@@ -43,10 +43,10 @@ struct UnsplashPhotoRepositoryTests {
           "results": [\(photoJSON)]
         }
         """
-        URLProtocolStub.setStub(.init(data: Data(body.utf8)))
+        URLProtocolStub.setStub(URLProtocolStub.Stub(data: Data(body.utf8)))
         let repository = makeRepository()
 
-        let page = try await repository.search(query: "  nature  ", page: 2, perPage: 30)
+        let page = try await repository.search(query: "  nature  ", page: 2, perPage: 20)
 
         #expect(page.page == 2)
         #expect(page.hasNextPage)
@@ -64,17 +64,19 @@ struct UnsplashPhotoRepositoryTests {
         let repository = makeRepository()
 
         await #expect(throws: NetworkError.http(statusCode: 429, messages: ["Rate Limit Exceeded"])) {
-            try await repository.photos(page: 1, perPage: 30)
+            try await repository.photos(page: 1, perPage: 20)
         }
     }
 
     @Test
     func rejectsMalformedResponse() async {
-        URLProtocolStub.setStub(.init(data: Data("not-json".utf8)))
+        URLProtocolStub.setStub(
+            URLProtocolStub.Stub(data: Data("not-json".utf8))
+        )
         let repository = makeRepository()
 
         do {
-            _ = try await repository.photos(page: 1, perPage: 30)
+            _ = try await repository.photos(page: 1, perPage: 20)
             Issue.record("Expected a decoding error")
         } catch let error as NetworkError {
             guard case .decoding = error else {
@@ -91,7 +93,7 @@ struct UnsplashPhotoRepositoryTests {
         let repository = makeRepository()
 
         await #expect(throws: PhotoRepositoryError.emptySearchQuery) {
-            try await repository.search(query: "   ", page: 1, perPage: 30)
+            try await repository.search(query: "   ", page: 1, perPage: 20)
         }
     }
 
