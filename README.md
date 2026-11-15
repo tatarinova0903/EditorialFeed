@@ -90,6 +90,7 @@ EditorialFeedApp
 ├── App       — composition root and platform adapters
 ├── Domain    — Photo, PhotoPage, and PhotoRepository
 ├── Data      — URLSession client, DTOs, mapping, and repository
+├── Services  — application-level feed, search, and pagination scenarios
 └── Features
     ├── MainFeed
     ├── MainFeedFlow
@@ -115,7 +116,7 @@ MainFeedViewModel → MainFeedViewStateBuilder → MainFeedViewState
 
 Responsibilities are divided as follows:
 
-- `EditorialFeedService` performs initial, search, and pagination requests; stores editorial and search contexts; accumulates pages; and removes duplicates;
+- `EditorialFeedService` lives outside the UI modules and performs initial, search, and pagination requests; stores editorial and search contexts; accumulates pages; and removes duplicates;
 - `MainFeedViewModel` handles semantic UI events, search debounce, the pagination-threshold decision, and screen navigation;
 - `MainFeedViewStateBuilder` transforms the service model into render state;
 - `MainFeedView` only renders state and sends events;
