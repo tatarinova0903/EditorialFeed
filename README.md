@@ -83,7 +83,7 @@ The UI layer resolves the photo description in the following order:
 
 ## Architecture
 
-The project uses a single target. This keeps infrastructure overhead appropriate for the scope of the assignment, while logical boundaries are expressed through folders, protocols, and explicit dependency injection.
+The project uses a single application target, plus unit and UI test targets. This keeps infrastructure overhead appropriate for the scope of the assignment, while logical boundaries are expressed through folders, protocols, and explicit dependency injection.
 
 ```text
 EditorialFeedApp
@@ -91,11 +91,12 @@ EditorialFeedApp
 ├── Domain    — Photo, PhotoPage, and PhotoRepository
 ├── Data      — URLSession client, DTOs, mapping, and repository
 ├── Services  — application-level feed, search, and pagination scenarios
-└── Features
+└── UI
+    ├── Common             — shared presentation and View components
+    ├── ConfigurationError — missing-configuration error screen
     ├── MainFeed
     ├── MainFeedFlow
-    ├── PhotoDetails
-    └── Shared/Presentation
+    └── PhotoDetails
 ```
 
 ### MainFeed
